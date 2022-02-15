@@ -1,8 +1,8 @@
-# Sofie Costin, Corey Bradshaw, Frédérik Saltré
+# Sofie Costin, Corey Bradshaw, FrÃ©dÃ©rik SaltrÃ©
 # Global Ecology, Flinders University globalecologyflinders.com
 # Brush-tailed bettong PVA
 # requires library - Plotly
-# updated 4/11/21
+# updated 15/2/22
 
 ## remove everything
 rm(list = ls())
@@ -25,33 +25,36 @@ source("matrixOperators.r")
 # create Leslie matrix
 age.max = 6 # maximum age of females in wild from Threatened Species Listing Advice (FIND SOURCE)
 
+# Stages max values from Thompson et al 2015
+
+# stage 1 (pouch young) = 110/365 days = 0.30 of 1 year
+# Stage 2 (independent young) =  70/365 days  = 0.19 of 1 year
+# stage 3 (sexually active) = 185/365 days = 0.51 of 1 year
+
+# survival and mortality from Pacioni et al 2017 (Supplementary 1)
+
 ## create vectors 
 #fertility 
-m.vec <- c((0.51*89.3), 89.3, 89.3, 89.3, 89.3, 89.3) ## female offspring produced each year from Pacioni et al 2017
-# m.vec <- c(0, 0, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7) # trial line
-
+m.vec <- c((0.51*89.3), rep(89.3, age.max-1)) ## female offspring produced each year
 plot(0:5,m.vec,pch=19,type="b")
 
 # fertility errors
-m.sd.vec <- c(3.5, 3.5, 3.5, 3.5, 3.5, 3.5) #mean and standard deviations vector, juvenile and adult fertility 
-# m.sd.vec <- c(0, 0, 0.7, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9) # trial line 
-
+m.sd.vec <- c(rep(3.5, age.max)) #mean and standard deviations vector, juvenile and adult fertility 
 
 #survival
-s.vec <- c(((0.956*0.3)+(0.85*0.19)+(0.961*0.51)), 0.961, 0.961, 0.961, 0.961, 0)  ## female  survival # probability of surviving from one year to the next. e.g surviving fourth year of life
-# s.vec <- c(0.27, 0.27, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0) # trial line
-plot(0:5,s.vec,pch=19,type="b")
+s.vec <- c(((0.956*0.3)+(0.85*0.19)+(0.961*0.51)), rep(0.961, age.max-1))  ## female  survival # probability of surviving from one year to the next. e.g surviving fourth year of life
 
 # survival errors
-s.sd.vec <- c(0.15, 0.15, 0.15, 0.15, 0.15, 0.15) #mean and standard deviations vector, juvenile and adult survival
-# s.sd.vec <- c(0.04, 0.04, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9) # trial line
+s.sd.vec <- c(rep(0.15, age.max)) #mean and standard deviations vector, juvenile and adult survival
 
+                                    
 # create matrix
 popmat <- matrix(data = 0, nrow=age.max, ncol=age.max) ##creates a matrix where data = 0 and dimensions age.max x age.max; 16 x 16
 diag(popmat[2:age.max,]) <- s.vec[1:5] ## diagonally in popmat from row 2, col 1 to row 15, col 5 populated with s.vec
-popmat[age.max,age.max] <- s.vec[6] ## position [6,6] = 0
+popmat[age.max,age.max] <- s.vec[6] ## position [6,6] 
 popmat[1,] <- m.vec ## row 1 of popmat populated with m.vec
 popmat.orig <- popmat ## save original matrix
+popmat
 
 ## matrix properties. Functions from "matrixOperators.R"
 max.lambda(popmat) ## 1-yr lambda. 
@@ -63,6 +66,10 @@ plot(0:5,ssd,pch=19,type="b")
 R.val(popmat, age.max) # reproductive value
 gen.l <- G.val(popmat, age.max) # mean generation length
 
+################################################################################################################################
+# returns number of female offspring produced per female during its lifetime as 2214.879, mean generation time 1.996848
+# this is an issue, max should be 3 young x 6 years = ~18 young
+################################################################################################################################
 
 ## matrix properties
 max.lambda(popmat) ## 1-yr lambda
@@ -835,17 +842,3 @@ colnames(spay.out) <- c("pSpay","pNmed","pNup","pNlo")
 
 TNR.pop <- data.frame(1-TNR, min.med.n, min.up.n, min.up.n)
 colnames(TNR.pop) <- c('proportion spayed', 'Median', 'Upper', 'Lower')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
