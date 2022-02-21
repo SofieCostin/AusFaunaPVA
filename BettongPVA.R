@@ -73,8 +73,8 @@ R.val(popmat, age.max) # reproductive value
 gen.l <- G.val(popmat, age.max) # mean generation length
 
 ################################################################################################################################
-# returns number of female offspring produced per female during its lifetime as 2214.879, mean generation time 1.996848
-# this is an issue, max should be 3 young x 6 years = ~18 young
+# returns number of female offspring produced per female during its lifetime as 55.13, mean generation time 5.995762
+# this is an issue, max should be 3 young x 6 years = ~18 young / 2 for female young only = 9
 ################################################################################################################################
 
 ## matrix properties
