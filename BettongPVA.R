@@ -35,8 +35,14 @@ age.max = 6 # maximum age of females in wild from Threatened Species Listing Adv
 
 ## create vectors 
 #fertility 
-m.vec <- c((0.51*89.3), rep(89.3, age.max-1)) ## female offspring produced each year
+
+pr.breed <- 0.893
+pr.breed.yr1 <- 0.893*0.51
+no.offspring <- 3
+no.Foffspring <- no.offspring/2
+m.vec <- c(pr.breed.yr1*no.Foffspring, rep(pr.breed*no.Foffspring, age.max-1)) ## female offspring produced each year
 plot(0:5,m.vec,pch=19,type="b")
+
 
 # fertility errors
 m.sd.vec <- c(rep(3.5, age.max)) #mean and standard deviations vector, juvenile and adult fertility 
