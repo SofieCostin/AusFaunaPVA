@@ -4,7 +4,7 @@ Honours project for Sofie Costin.
 
 - [ ] Orange-bellied parrot *Neophema chrysogaster*  
 - [ ] Malleefowl *Leipoa ocellata*  
-- [ ] Brush-tailed bettong *Bettongia penicillata*  
+- [x] Brush-tailed bettong *Bettongia penicillata*  
 - [ ] Mountain pygmy possum *Burramys parvus*  
 - [ ] Numbat *Myrmecobius fasciatus*  
 - [ ] Western quoll *Dasyurus geoffroii*  
