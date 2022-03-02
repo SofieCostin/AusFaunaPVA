@@ -22,7 +22,9 @@ estBetaParams <- function(mu, var) {
 ## source/matrix operators
 source("matrixOperators.r")
 
-# create Leslie matrix
+
+# Leslie matrix ----------------------------------------------------
+
 age.max = 6 # maximum age of females in wild from Threatened Species Listing Advice (FIND SOURCE)
 
 # Stages max values from Thompson et al 2015
@@ -33,8 +35,7 @@ age.max = 6 # maximum age of females in wild from Threatened Species Listing Adv
 
 # survival and mortality from Pacioni et al 2017 (Supplementary 1)
 
-## create vectors 
-#fertility 
+# Create vectors: fertility -----------------------------------------------
 
 pr.breed <- 0.893
 pr.breed.yr1 <- 0.893*0.51
@@ -44,7 +45,9 @@ m.vec <- c(pr.breed.yr1*no.Foffspring, rep(pr.breed*no.Foffspring, age.max)) ## 
 plot(0:6,m.vec,pch=19,type="b")
 
 # fertility errors
-m.sd.vec <- c(rep(3.5, age.max+1)) #mean and standard deviations vector, juvenile and adult fertility 
+m.sd.vec <- c(rep(0.26, age.max+1)) #mean and standard deviations vector, juvenile and adult fertility 
+
+# Create vectors: Survival ------------------------------------------------
 
 #survival
 s.vec <- c(((0.956*0.3)+(0.85*0.19)+(0.961*0.51)), rep(0.961, age.max))  ## female  survival # probability of surviving from one year to the next. e.g surviving fourth year of life
@@ -52,17 +55,14 @@ s.vec <- c(((0.956*0.3)+(0.85*0.19)+(0.961*0.51)), rep(0.961, age.max))  ## fema
 # survival errors
 s.sd.vec <- c(rep(0.15, age.max+1)) #mean and standard deviations vector, juvenile and adult survival
 
-                                    
-# create matrix
+# Create matrix -----------------------------------------------------------
+
 popmat <- matrix(data = 0, nrow=age.max+1, ncol=age.max+1) # creates a matrix where data = 0 and dimensions age.max x age.max
 diag(popmat[2:(age.max+1),]) <- s.vec[1:(age.max)] #  populates popmat diagonally with s.vec
 # popmat[age.max+1,age.max+1] <- s.vec[1:(age.max)] # would fill 7,7 with s.vec, but not needed because pr(breed) at age.max = 0
 popmat[1,] <- m.vec[age.max+1] ## row 1 of popmat populated with m.vec
 popmat.orig <- popmat ## save original matrix
 popmat
-
-
-
 
 ## matrix properties
 max.lambda(popmat) ## 1-yr lambda
@@ -71,26 +71,27 @@ ssd <- stable.stage.dist(popmat) ## stable stage distribution
 R.val(popmat, age.max) # reproductive value
 gen.l <- G.val(popmat, age.max) # mean generation length
 
-## initial population vector
+
+# Initial population vector -----------------------------------------------
+
+
 pop.found <- 500 # change this to change mvp 
 init.vec <- ssd * pop.found #initial population vector
 plot(0:6,ssd,pch=19,type="b")
 
 
-#################
-## project
-#################
+# Project -----------------------------------------------------------------
+
 
 ## set time limit for projection in 1-yr increments
+
 yr.now <- 2020 # 
-#************************
 yr.end <- yr.now + round(40*gen.l,0) # set projection end date to 40 generations (IUCN)
-#************************
 t <- (yr.end - yr.now) #time frame
+yr.vec <- seq(yr.now,yr.end) # year vector
 
 tot.F <- sum(popmat.orig[1,])
 popmat <- popmat.orig # reset matrix 
-yr.vec <- seq(yr.now,yr.end) # year vector
 
 ## set population storage matrices
 n.mat <- matrix(0, nrow=age.max+1,ncol=(t+1))  #empty matrix
@@ -105,23 +106,18 @@ n.pred <- colSums(n.mat) # number of animals through time period, no density red
 yrs <- seq(yr.now, yr.end, 1)
 plot(yrs, n.pred,type="b",lty=2,pch=19,xlab="year",ylab="N")
 
-# compensatory density feedback
-#population rate of increase relative to carrying capacity. Larger distance between population and K = faster population growth
-K.max <- pop.found
-# K.vec <- c(1,K.max*0.5,K.max*0.83,K.max*0.90,K.max)
-# K.vec <- c(1,pop.found/2,pop.found,0.75*K.max,K.max) #1= K.min, .75 = red.thresh??
+## compensatory density feedback
+## population rate of increase relative to carrying capacity. Larger distance between population and K = faster population growth
+K.max <- pop.found*2
 K.vec <- c(1,K.max*0.5,0.75*K.max,0.85*K.max,0.95*K.max)
 plot(K.vec)
 
-# red.vec <- c(1,0.999,0.99,0.985,0.976)
-# red.vec <- c(1,0.965,0.89,0.79,0.71)
-# red.vec <- c(1,0.99,0.97,0.95,0.93)
 red.vec <- c(1,0.98,0.85,0.75,0.6)
 plot(K.vec,red.vec,pch=19,type="b")
 Kred.dat <- data.frame(K.vec,red.vec)
 
-# logistic power function a/(1+(x/b)^c) 
-# fits logistic power function to population relative to carrying capacity, K
+## logistic power function a/(1+(x/b)^c) 
+## fits logistic power function to population relative to carrying capacity, K
 param.init <- c(1, K.max, 2) #(1, 15000, 2.5)
 fit.lp <- nls(red.vec ~ a/(1+(K.vec/b)^c), 
               data = Kred.dat,
@@ -156,7 +152,7 @@ for (i in 1:t) {
 }
 
 n.pred <- colSums(n.mat)
-plot(yrs, n.pred,type="l",lty=2,pch=19,xlab="year",ylab="N", ylim=c(0,2 * pop.found)) # untreated population increases, rate of increase relative to K, no stochastic sampling
+plot(yrs, n.pred,type="l",lty=2,pch=19,xlab="year",ylab="N", ylim=c(0,4 * pop.found)) # untreated population increases, rate of increase relative to K, no stochastic sampling
 abline(h=K.max, lty=2, col="red") # carrying capacity
 
 
@@ -241,17 +237,20 @@ abline(h=K.max, lty=2, col="red") # carrying capacity
 
 
 
-#####################################
-## decrement founding population size and determine MVP and Pr(Qext)
-#####################################
+# Decrement founding population size and determine MVP & Pr(Qext) -------------------------------------------------
+
 
 Qthresh <- 50 # quasiextinction threshold. Set at 50 (50f Ne to avoid inbreeding depression), then at whatever cons. managers want 
 
 # sequence vector for founding N
 pop.found.vec <- seq(pop.found, 10, -5) # change the increments to get a smoother line
 
-iter <- 100 # iterations to run for each projection loop change to 10,000 for final run
-itdiv <- iter/10 #final model rate at iter/1000
+
+# Set iterations ----------------------------------------------------------
+
+
+iter <- 10000 # iterations to run for each projection loop change to 10,000 for final run
+itdiv <- iter/1000 #final model rate at iter/1000
 
 ## set time limit for projection in 1-yr increments
 yr.now <- 2020
@@ -314,13 +313,13 @@ for (p in 1:length(pop.found.vec)) {
     
   } # end e loop
   
-  n.md <- apply(n.sums.mat, MARGIN=2, median, na.rm=T) # mean over all iterations
+  n.md <- apply(n.sums.mat, MARGIN=2, median, na.rm=T) # median over all iterations
   n.up <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.975, na.rm=T) # upper over all iterations
   n.lo <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.025, na.rm=T) # lower over all iterations
   
   Qmax <- apply(qExt.mat, MARGIN=1, max, na.rm=T)
-  minN <- apply(n.sums.mat, MARGIN=1, min, na.rm=T)
-  
+  minN <- apply(n.sums.mat, MARGIN=1, min, na.rm=T) # takes the min from n.sums.mat 
+
   
   minNmd[p] <- median(minN)
   minNlo[p] <- quantile(minN, probs=0.025)
@@ -328,11 +327,11 @@ for (p in 1:length(pop.found.vec)) {
   
   PrQExt[p] <- sum(Qmax)/iter
   
-  print("", quote = FALSE)
-  print("################", quote = FALSE)
+  print(" ", quote = FALSE)
+  print("*********************************************", quote = FALSE)
   print(paste("founding N = ", pop.found.vec[p]), quote = FALSE)
-  print("################", quote = FALSE)
-  print("", quote = FALSE)
+  print("*********************************************", quote = FALSE)
+  print(" ", quote = FALSE)
   
 } # end p loop
 
@@ -343,3 +342,4 @@ plot(pop.found.vec, minNmd, type="l", xlab="founding N", ylab="minimum N", ylim=
 lines(pop.found.vec, minNlo, lty=2, col="red")
 lines(pop.found.vec, minNup, lty=2, col="red")
 par(mfrow=c(1,1))
+
