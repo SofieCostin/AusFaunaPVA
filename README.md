@@ -16,9 +16,9 @@ Data entered into model and at least first run working
 - [ ] Rosenburg's monitor *Varanus rosenbergi*  
 
 Models needing mean m.sd and s.sd once available
-Pygmy bluetongue
-Brush-tailed bettong
-Bilby
+- Pygmy bluetongue
+- Brush-tailed bettong
+- Bilby
 
 Model complete
 - [ ] Orange-bellied parrot *Neophema chrysogaster*  
