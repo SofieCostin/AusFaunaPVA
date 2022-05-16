@@ -8,7 +8,7 @@ Data entered into model and at least first run working
 - [x] Brush-tailed bettong *Bettongia penicillata*  
 - [ ] Mountain pygmy possum *Burramys parvus*  
 - [ ] Numbat *Myrmecobius fasciatus*  
-- [ ] Western quoll *Dasyurus geoffroii*  
+- [x] Western quoll *Dasyurus geoffroii*  
 - [x] Platypus *Ornithorhynchus anatinus*  
 - [x] Bilby *Macrotis lagotis*  
 - [ ] Northern hairy-nosed wombat *Lasiorhinus krefftii*  
