@@ -3,7 +3,7 @@
 Honours project for Sofie Costin.  
 
 Data entered into model and at least first run working
-- [ ] Orange-bellied parrot *Neophema chrysogaster*  
+- [x] Orange-bellied parrot *Neophema chrysogaster*  
 - [ ] Malleefowl *Leipoa ocellata*  
 - [x] Brush-tailed bettong *Bettongia penicillata*  
 - [ ] Mountain pygmy possum *Burramys parvus*  
