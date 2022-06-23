@@ -92,7 +92,7 @@ gen.l <- G.val(popmat, age.max) # mean generation length
 # Initial population vector -----------------------------------------------
 
 
-pop.found <- 5000 # change this to change mvp 
+pop.found <- 200 # change this to change mvp 
 init.vec <- ssd * pop.found #initial population vector
 plot(0:age.max,ssd,pch=19,type="b")
 
@@ -129,7 +129,7 @@ K.max <- pop.found*2
 K.vec <- c(1,K.max*0.5,0.75*K.max,0.85*K.max,0.95*K.max)
 plot(K.vec)
 
-red.vec <- c(1,0.98,0.85,0.75,0.6)
+red.vec <- c(1,0.98,0.88,0.78,0.82)
 plot(K.vec,red.vec,pch=19,type="b")
 Kred.dat <- data.frame(K.vec,red.vec)
 
@@ -178,7 +178,7 @@ abline(h=K.max, lty=2, col="red") # carrying capacity
 Qthresh <- 50 # quasiextinction threshold. Set at 50 (50f Ne to avoid inbreeding depression), then at whatever cons. managers want 
 
 # sequence vector for founding N
-pop.found.vec <- seq(pop.found, 100, -100) # change the increments down to get a smoother line
+pop.found.vec <- seq(pop.found, 100, -20) # change the increments down to get a smoother line
 
 
 # Set iterations ----------------------------------------------------------
@@ -277,3 +277,4 @@ plot(pop.found.vec, minNmd, type="l", xlab="founding N", ylab="minimum N", ylim=
 lines(pop.found.vec, minNlo, lty=2, col="red")
 lines(pop.found.vec, minNup, lty=2, col="red")
 par(mfrow=c(1,1))
+
