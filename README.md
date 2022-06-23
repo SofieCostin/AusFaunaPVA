@@ -11,9 +11,6 @@ Data entered into model and at least first run working
 - [x] Bilby *Macrotis lagotis*  
 - [x] Pygmy bluetongue lizard *Tiliqua adelaidensis*  
 - [x] Rosenburg's monitor *Varanus rosenbergi*  
-- [ ] Mountain pygmy possum *Burramys parvus*  
-- [ ] Numbat *Myrmecobius fasciatus* 
-- [ ] Northern hairy-nosed wombat *Lasiorhinus krefftii*  
 
 Models needing mean m.sd and s.sd once available
 - Pygmy bluetongue
@@ -24,11 +21,13 @@ Model complete
 - [ ] Orange-bellied parrot *Neophema chrysogaster*  
 - [ ] Malleefowl *Leipoa ocellata*  
 - [x] Brush-tailed bettong *Bettongia penicillata*  
-- [ ] Mountain pygmy possum *Burramys parvus*  
-- [ ] Numbat *Myrmecobius fasciatus*  
 - [ ] Western quoll *Dasyurus geoffroii*  
 - [x] Platypus *Ornithorhynchus anatinus*  
-- [ ] Bilby *Macrotis lagotis*  
-- [ ] Northern hairy-nosed wombat *Lasiorhinus krefftii*  
+- [ ] Bilby *Macrotis lagotis*  *  
 - [ ] Pygmy bluetongue lizard *Tiliqua adelaidensis*  
 - [ ] Rosenburg's monitor *Varanus rosenbergi*  
+
+Originally in list of species but dropped due to data paucity
+- Mountain pygmy possum *Burramys parvus*  
+- Numbat *Myrmecobius fasciatus* 
+- Northern hairy-nosed wombat *Lasiorhinus krefftii*  
