@@ -4,7 +4,7 @@ Honours project for Sofie Costin.
 
 Data entered into model and at least first run working
 - [x] Orange-bellied parrot *Neophema chrysogaster*  
-- [ ] Malleefowl *Leipoa ocellata*  
+- [x] Malleefowl *Leipoa ocellata*  
 - [x] Brush-tailed bettong *Bettongia penicillata*  
 - [ ] Mountain pygmy possum *Burramys parvus*  
 - [ ] Numbat *Myrmecobius fasciatus*  
@@ -13,7 +13,7 @@ Data entered into model and at least first run working
 - [x] Bilby *Macrotis lagotis*  
 - [ ] Northern hairy-nosed wombat *Lasiorhinus krefftii*  
 - [x] Pygmy bluetongue lizard *Tiliqua adelaidensis*  
-- [ ] Rosenburg's monitor *Varanus rosenbergi*  
+- [x] Rosenburg's monitor *Varanus rosenbergi*  
 
 Models needing mean m.sd and s.sd once available
 - Pygmy bluetongue
