@@ -8,7 +8,6 @@
 rm(list = ls())
 
 
-
 # libraries
 library(plotly)
 options(scipen = 1000)
@@ -26,7 +25,7 @@ source("matrixOperators.r")
 
 # Leslie matrix -------------------------------------
 
-age.max <- 10 # maximum age of females in wild from (Holdsworth, M )
+age.max <- 9 # mean age of females in wild from (Holdsworth, M )
 
 age.vec <- 0:age.max
 
@@ -36,7 +35,7 @@ age.vec <- 0:age.max
 # shown in Figure 2.9. A total of 874 eggs were laid in 185 nests. Of these nests none
 # contained one egg, 2.2% had two eggs (n = 4), 5.9% had three eggs (n = 11), 23.8% had
 # four eggs (n = 44), 53.5% had five eggs (n = 99) and 14.6% had six eggs (n = 27). More
-# than half (56.6%) of the eggs laid were from five egg clutches and 95.3% were from 4–
+# than half (56.6%) of the eggs laid were from five egg clutches and 95.3% were from 4-
 #            6 egg clutches.
 # the mean fledging success across all years was 86.9% (± 2.47 s.e) 
 # 297 females, 165 nests
@@ -50,7 +49,7 @@ m.vec
 
 # fertility errors
 
-m.sd.vec <- c(rep(0.13, age.max), 0) #mean and standard deviations vector, juvenile and adult fertility 
+m.sd.vec <- c(rep(0.029, age.max+1)) #mean and standard deviations vector, juvenile and adult fertility 
 m.sd.vec
 
 
@@ -58,13 +57,14 @@ m.sd.vec
 # Orange Bellied Parrot thesis Mark Holdsworth
 
 
-s.vec <- c(0.560, 0.665, rep(0.590, age.max-2), 0)
+s.vec <- c(0.560, 0.665, rep(0.590, age.max-1))
 s.vec ## female  survival # probability of surviving from one year to the next. e.g surviving fourth year of life
 
 # survival errors
 
-s.sd.vec <- c(0.0312, 0.0619, rep(0.1911, age.max-2), 0 ) #standard deviations vector, juvenile and adult survival
+s.sd.vec <- c(0.0312, 0.0619, rep(0.1911, age.max-1)) #standard deviations vector, juvenile and adult survival
 s.sd.vec
+
 # Create matrix -----------------------------------------------------------
 
 popmat <- matrix(data = 0, nrow=age.max+1, ncol=age.max+1) # creates a matrix where data = 0 and dimensions age.max x age.max
@@ -85,7 +85,7 @@ gen.l <- G.val(popmat, age.max) # mean generation length
 # Initial population vector -----------------------------------------------
 
 
-pop.found <- 1000 # change this to change mvp 
+pop.found <- 200 # change this to change mvp 
 init.vec <- ssd * pop.found #initial population vector
 plot(0:age.max,ssd,pch=19,type="b")
 
@@ -162,7 +162,7 @@ for (i in 1:t) {
 }
 
 n.pred <- colSums(n.mat)
-plot(yrs, n.pred,type="l",lty=2,pch=19,xlab="year",ylab="N", ylim=c(0,4 * pop.found)) # untreated population increases, rate of increase relative to K, no stochastic sampling
+plot(yrs, n.pred,type="l",lty=2,pch=19,xlab="year",ylab="N") # untreated population increases, rate of increase relative to K, no stochastic sampling
 abline(h=K.max, lty=2, col="red") # carrying capacity
 
 
@@ -171,7 +171,7 @@ abline(h=K.max, lty=2, col="red") # carrying capacity
 Qthresh <- 50 # quasiextinction threshold. Set at 50 (50f Ne to avoid inbreeding depression), then at whatever cons. managers want 
 
 # sequence vector for founding N
-pop.found.vec <- seq(pop.found, 1000, -100) # change the increments down to get a smoother line
+pop.found.vec <- seq(pop.found, 20, -10) # change the increments down to get a smoother line
 
 
 # Set iterations ----------------------------------------------------------
