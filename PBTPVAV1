@@ -2,7 +2,7 @@
 # Global Ecology, Flinders University globalecologyflinders.com
 # Phgmy Bluetongue  PVA
 # requires library - Plotly
-# update 29/03/2022
+# update 21/06/2022
 
 # All demographic values from Milne 1999, Conservation and Ecology of the Endangered Pigmy Bluetongue Lizard "Tiliqua adelaidensis" PhD thesis
 
@@ -12,7 +12,7 @@ rm(list = ls())
 # libraries
 library(plotly)
 options(scipen = 1000)
-
+  
 ## functions
 # beta distribution shape parameter estimator function
 estBetaParams <- function(mu, var) {
@@ -34,27 +34,26 @@ age.vec <- 0:age.max
 
 # 81.1% of females predicted to breed each year
 # average litter size 3.23 +/- 0.75 young
+# fecundity values from pg206
 
-pr.breed <- 0.811
-no.young <- 3.23
-no.Fyoung <- no.young/2
-m.vec <- c(0,0,rep(pr.breed*no.Fyoung, age.max-1)) # female offspring produced per year
+
+m.vec <- c(0,0,(0.896), (1.19), (1.33), rep(1.62, age.max-4)) # female offspring produced per year
 m.vec
 
 
 # fertility errors
 
-m.sd.vec <- c(rep(0.15, age.max+1)) #mean and standard deviations vector, juvenile and adult fertility 
+m.sd.vec <- c(rep(0.16, age.max+1)) #mean and standard deviations vector, juvenile and adult fertility 
 m.sd.vec
 
 # Create vectors: Survival ------------------------------------------------
 
-s.vec <- c(0.94, 0.253, rep(0.767, age.max-1)) # corrected for migration
+s.vec <- c(1.0, 0.253, rep(0.767, age.max-1)) # corrected for migration
 s.vec ## female  survival # probability of surviving from one year to the next. e.g surviving fourth year of life
 
 # survival errors
 
-s.sd.vec <- c(rep(0.087, age.max-+1)) #mean and standard deviations vector, juvenile and adult survival
+s.sd.vec <- c(rep(0.07, age.max+1)) #mean and standard deviations vector, juvenile and adult survival
 s.sd.vec
 
 # Create matrix -----------------------------------------------------------
@@ -77,7 +76,7 @@ gen.l <- G.val(popmat, age.max) # mean generation length
 # Initial population vector -----------------------------------------------
 
 
-pop.found <- 1000 # change this to change mvp 
+pop.found <- 50 # change this to change mvp 
 init.vec <- ssd * pop.found #initial population vector
 plot(0:age.max,ssd,pch=19,type="b")
 
@@ -163,7 +162,7 @@ abline(h=K.max, lty=2, col="red") # carrying capacity
 Qthresh <- 50 # quasiextinction threshold. Set at 50 (50f Ne to avoid inbreeding depression), then at whatever cons. managers want 
 
 # sequence vector for founding N
-pop.found.vec <- seq(pop.found, 100, -20) # change the increments down to get a smoother line
+pop.found.vec <- seq(pop.found, 10, -5) # change the increments down to get a smoother line
 
 
 # Set iterations ----------------------------------------------------------
@@ -258,7 +257,7 @@ for (p in 1:length(pop.found.vec)) {
 par(mfrow=c(2,1))
 plot(pop.found.vec, PrQExt, type="l", xlab="founding N", ylab="Pr(quasi-extinction)")
 
-plot(pop.found.vec, minNmd, type="l", xlab="founding N", ylab="minimum N", ylim=c(min(minNlo), max(minNup)))
+plot(pop.found.vec, minNmd, type="l", xlab="founding N", ylab="minimum N")
 lines(pop.found.vec, minNlo, lty=2, col="red")
 lines(pop.found.vec, minNup, lty=2, col="red")
 par(mfrow=c(1,1))
