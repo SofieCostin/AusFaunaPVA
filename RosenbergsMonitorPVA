@@ -76,7 +76,7 @@ gen.l <- G.val(popmat, age.max) # mean generation length
 # Initial population vector -----------------------------------------------
 
 
-pop.found <- 500 # change this to change mvp 
+pop.found <- 1000 # change this to change mvp 
 init.vec <- ssd * pop.found #initial population vector
 plot(0:age.max,ssd,pch=19,type="b")
 
@@ -159,10 +159,10 @@ abline(h=K.max, lty=2, col="red") # carrying capacity
 
 # Decrement founding population size and determine MVP & Pr(Qext) -------------------------------------------------
 
-Qthresh <- 50 # quasiextinction threshold. Set at 50 (50f Ne to avoid inbreeding depression), then at whatever cons. managers want 
+Qthresh <- 25 # quasiextinction threshold. Set at 25 (25f Ne to avoid inbreeding depression), then at whatever cons. managers want 
 
 # sequence vector for founding N
-pop.found.vec <- seq(pop.found, 10, -5) # change the increments down to get a smoother line
+pop.found.vec <- seq(pop.found, 100, -50) # change the increments down to get a smoother line
 
 
 # Set iterations ----------------------------------------------------------
@@ -185,7 +185,7 @@ PrQExt <- minNmd <- minNlo <- minNup <- rep(NA, length(pop.found.vec))
 for (p in 1:length(pop.found.vec)) {
   
   ## initial population vector
-  ssd <- stable.stage.dist(popmat)
+  popmat <- popmat.orig
   init.vec <- ssd * pop.found.vec[p] #initial population vector
   
   ## stochastic projection with density feedback
@@ -203,12 +203,14 @@ for (p in 1:length(pop.found.vec)) {
       # stochastic survival values
       s.alpha <- estBetaParams(s.vec, s.sd.vec^2)$alpha
       s.beta <- estBetaParams(s.vec, s.sd.vec^2)$beta
-      s.stoch <- rbeta(length(s.alpha), s.alpha, s.beta)
+      s.stoch1 <- rbeta(length(s.alpha), s.alpha, s.beta)
+      s.stoch <- ifelse(is.na(s.stoch1)==T, 0, s.stoch1)
       
       if (rbinom(1, 1, 0.14/gen.l) == 1) { # catastrophe
         cat.alpha <- estBetaParams(0.5, 0.05^2)$alpha
         cat.beta <- estBetaParams(0.5, 0.05^2)$beta
-        s.stoch <- s.stoch * (rbeta(1, cat.alpha, cat.beta))
+        s.stoch1 <- s.stoch * (rbeta(1, cat.alpha, cat.beta))
+        s.stoch <- ifelse(is.na(s.stoch1)==T, 0, s.stoch1)
       }
       
       # stochastic fertility sampler (Gaussian)
@@ -219,7 +221,7 @@ for (p in 1:length(pop.found.vec)) {
       pred.red <- as.numeric(a.lp/(1+(totN.i/b.lp)^c.lp))
       
       diag(popmat[2:(age.max+1),]) <- (s.stoch[-(age.max+1)])*pred.red
-      popmat[age.max+1,age.max+1] <- (s.stoch[age.max+1])*pred.red
+      popmat[age.max+1,age.max+1] <- 0
       popmat[1,] <- fert.stoch
       n.mat[,i+1] <- popmat %*% n.mat[,i]
       
@@ -236,9 +238,12 @@ for (p in 1:length(pop.found.vec)) {
   n.up <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.975, na.rm=T) # upper over all iterations
   n.lo <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.025, na.rm=T) # lower over all iterations
   
+  plot(yr.vec,n.md,type="l")
+  
   Qmax <- apply(qExt.mat, MARGIN=1, max, na.rm=T)
   minN <- apply(n.sums.mat, MARGIN=1, min, na.rm=T) # takes the min from n.sums.mat 
   
+  plot(yr.vec, n.md, type="l")
   
   minNmd[p] <- median(minN)
   minNlo[p] <- quantile(minN, probs=0.025)
@@ -261,4 +266,24 @@ plot(pop.found.vec, minNmd, type="l", xlab="founding N", ylab="minimum N", ylim=
 lines(pop.found.vec, minNlo, lty=2, col="red")
 lines(pop.found.vec, minNup, lty=2, col="red")
 par(mfrow=c(1,1))
+
+
+# Plot final results ------------------------------------------------------
+
+# set theme for plots
+
+Ctheme = theme(
+  axis.title.x = element_text(size = 14),
+  axis.text.x = element_text(size = 12),
+  axis.title.y = element_text(size = 14),
+  axis.text.y = element_text(size = 12),
+  plot.title = element_text(size = 18),
+  axis.line = element_line(colour = "black", size = 1, linetype = 'solid'),
+  panel.background = element_rect(fill = "white"),
+  panel.grid.major.y = element_line(size = 0.5, linetype = 'dotted', colour = "light grey"),
+  panel.grid.minor.y = element_line(size = 0.5, linetype = 'dotted', colour = "light grey"),
+  panel.grid.major.x = element_blank(),
+  panel.border = element_blank())
+
+
 
