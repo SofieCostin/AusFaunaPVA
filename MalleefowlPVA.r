@@ -53,14 +53,16 @@ juv.surv <- 0.53 # 6 mo - 1yr
 # stochastic survival sampler
 ad.surv.stoch <- rbeta(10000, 26,231) # 10000 samples from beta distribution in which 25 died, 230 survived.
 
-s.vec <- c(((0.74*0.25) + (0.42*0.25) + (0.53*0.5)), rep(sample(ad.surv.stoch, size = 1), age.max)) 
+
+
+s.vec <- c(((0.74*0.25) + (0.42*0.25) + (0.53*0.5)), rep(mean(ad.surv.stoch), age.max)) 
 s.vec
 
 # survival errors
 Q1 <- quantile(ad.surv.stoch, prob = c(0.025, 0.975))
 Q1df <- as.data.frame(Q1)
 
-s.sd.vec <- c(rep(((Q1df[2,1])-(Q1df[1,1])), age.max+1)) #standard deviations vector, juvenile and adult survival
+s.sd.vec <- c(rep(0.122, age.max+1)) #standard deviations vector, juvenile and adult survival
 s.sd.vec
 
 # Create matrix -----------------------------------------------------------
@@ -217,10 +219,13 @@ for (p in 1:length(pop.found.vec)) {
         cat.beta <- estBetaParams(0.5, 0.05^2)$beta
         s.stoch <- s.stoch * (rbeta(1, cat.alpha, cat.beta))
       }
-      
+       print(s.stoch)
+       
       # stochastic fertility sampler (Gaussian)
       fert.stch <- rnorm(length(popmat[,1]), m.vec, m.sd.vec)
       fert.stoch <- ifelse(fert.stch < 0, 0, fert.stch)
+      
+      print(fert.stoch)
       
       totN.i <- sum(n.mat[,i], na.rm=T)
       pred.red <- as.numeric(a.lp/(1+(totN.i/b.lp)^c.lp))
@@ -229,6 +234,8 @@ for (p in 1:length(pop.found.vec)) {
       popmat[age.max+1,age.max+1] <- (s.stoch[age.max+1])*pred.red
       popmat[1,] <- fert.stoch
       n.mat[,i+1] <- popmat %*% n.mat[,i]
+      
+      
       
     } # end i loop
     
