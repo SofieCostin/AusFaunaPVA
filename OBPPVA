@@ -1,8 +1,8 @@
 # Sofie Costin, Corey Bradshaw, Fr?d?rik Saltr?
 # Global Ecology, Flinders University globalecologyflinders.com
-# Bilby PVA
+# Orange Bellied Parrot PVA
 # requires library - Plotly
-# update 29/03/2022
+# update 24/6/2022
 
 ## remove everything
 rm(list = ls())
@@ -168,16 +168,16 @@ abline(h=K.max, lty=2, col="red") # carrying capacity
 
 # Decrement founding population size and determine MVP & Pr(Qext) -------------------------------------------------
 
-Qthresh <- 50 # quasiextinction threshold. Set at 50 (50f Ne to avoid inbreeding depression), then at whatever cons. managers want 
+Qthresh <- 25 # quasiextinction threshold. Set at 25 (25f Ne to avoid inbreeding depression), then at whatever cons. managers want 
 
 # sequence vector for founding N
-pop.found.vec <- seq(pop.found, 20, -10) # change the increments down to get a smoother line
+pop.found.vec <- seq(pop.found, 100, -50) # change the increments down to get a smoother line
 
 
 # Set iterations ----------------------------------------------------------
 
 
-iter <- 1000 # iterations to run for each projection loop change to 10,000 for final run
+iter <- 100 # iterations to run for each projection loop change to 10,000 for final run
 itdiv <- iter/10 #final model rate at iter/1000
 
 ## set time limit for projection in 1-yr increments
@@ -194,7 +194,7 @@ PrQExt <- minNmd <- minNlo <- minNup <- rep(NA, length(pop.found.vec))
 for (p in 1:length(pop.found.vec)) {
   
   ## initial population vector
-  ssd <- stable.stage.dist(popmat)
+  popmat <- popmat.orig
   init.vec <- ssd * pop.found.vec[p] #initial population vector
   
   ## stochastic projection with density feedback
@@ -244,6 +244,8 @@ for (p in 1:length(pop.found.vec)) {
   n.md <- apply(n.sums.mat, MARGIN=2, median, na.rm=T) # median over all iterations
   n.up <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.975, na.rm=T) # upper over all iterations
   n.lo <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.025, na.rm=T) # lower over all iterations
+  
+  plot(yr.vec,n.md,type="l")
   
   Qmax <- apply(qExt.mat, MARGIN=1, max, na.rm=T)
   minN <- apply(n.sums.mat, MARGIN=1, min, na.rm=T) # takes the min from n.sums.mat 
