@@ -43,7 +43,7 @@ m.vec
 
 # fertility errors
 
-m.sd.vec <- c(rep(0.16, age.max+1)) #mean and standard deviations vector, juvenile and adult fertility 
+m.sd.vec <- c(rep(0.2, age.max+1)) #mean and standard deviations vector, juvenile and adult fertility 
 m.sd.vec
 
 # Create vectors: Survival ------------------------------------------------
@@ -53,7 +53,7 @@ s.vec ## female  survival # probability of surviving from one year to the next. 
 
 # survival errors
 
-s.sd.vec <- c(rep(0.07, age.max+1)) #mean and standard deviations vector, juvenile and adult survival
+s.sd.vec <- c(rep(0.13, age.max+1)) #mean and standard deviations vector, juvenile and adult survival
 s.sd.vec
 
 # Create matrix -----------------------------------------------------------
@@ -76,7 +76,7 @@ gen.l <- G.val(popmat, age.max) # mean generation length
 # Initial population vector -----------------------------------------------
 
 
-pop.found <- 50 # change this to change mvp 
+pop.found <- 1000 # change this to change mvp 
 init.vec <- ssd * pop.found #initial population vector
 plot(0:age.max,ssd,pch=19,type="b")
 
@@ -159,10 +159,10 @@ abline(h=K.max, lty=2, col="red") # carrying capacity
 
 # Decrement founding population size and determine MVP & Pr(Qext) -------------------------------------------------
 
-Qthresh <- 50 # quasiextinction threshold. Set at 50 (50f Ne to avoid inbreeding depression), then at whatever cons. managers want 
+Qthresh <- 25 # quasiextinction threshold. Set at 25 (25f Ne to avoid inbreeding depression), then at whatever cons. managers want 
 
 # sequence vector for founding N
-pop.found.vec <- seq(pop.found, 10, -5) # change the increments down to get a smoother line
+pop.found.vec <- seq(pop.found, 100, -50) # change the increments down to get a smoother line
 
 
 # Set iterations ----------------------------------------------------------
@@ -185,7 +185,7 @@ PrQExt <- minNmd <- minNlo <- minNup <- rep(NA, length(pop.found.vec))
 for (p in 1:length(pop.found.vec)) {
   
   ## initial population vector
-  ssd <- stable.stage.dist(popmat)
+  popmat <- popmat.orig
   init.vec <- ssd * pop.found.vec[p] #initial population vector
   
   ## stochastic projection with density feedback
@@ -235,6 +235,8 @@ for (p in 1:length(pop.found.vec)) {
   n.md <- apply(n.sums.mat, MARGIN=2, median, na.rm=T) # median over all iterations
   n.up <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.975, na.rm=T) # upper over all iterations
   n.lo <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.025, na.rm=T) # lower over all iterations
+  
+  plot(yr.vec,n.md,type="l")
   
   Qmax <- apply(qExt.mat, MARGIN=1, max, na.rm=T)
   minN <- apply(n.sums.mat, MARGIN=1, min, na.rm=T) # takes the min from n.sums.mat 
