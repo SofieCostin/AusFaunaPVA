@@ -157,7 +157,7 @@ abline(h=K.max, lty=2, col="red") # carrying capacity
 
 # Decrement founding population size and determine MVP & Pr(Qext) -------------------------------------------------
 
-Qthresh <- 50 # quasiextinction threshold. Set at 50 (50f Ne to avoid inbreeding depression), then at whatever cons. managers want 
+Qthresh <- 25 # quasiextinction threshold. Set at 50 (50f Ne to avoid inbreeding depression), then at whatever cons. managers want 
 
 # sequence vector for founding N
 pop.found.vec <- seq(pop.found, 10, -5) # change the increments down to get a smoother line
