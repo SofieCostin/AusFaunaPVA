@@ -4,6 +4,11 @@
 # requires library - Plotly
 # updated 03/07/2022
 
+# References:
+# Southgate RI, Christie P, Bellchambers K. 2000. Breeding biology of captive, reintroduced and wild greater bilbies, Macrotis lagotis (Marsupialia : Peramelidae). Wildlife Research 27:621.
+# Southgate R, Possingham H. 1995. Modelling the reintroduction of the greater bilby Macrotis lagotis using the metapopulation model analysis of the likelihood of extinction (ALEX). Biological Conservation 73:151-160.
+
+
 ## remove everything
 #rm(list = ls())
 
@@ -24,13 +29,13 @@ source("matrixOperators.r")
 
 # Leslie matrix -------------------------------------
 
-age.max <- 5 # maximum age of females in wild from (Southgate, Christie & Bellchambers 2000; Southgate & Possingham 1995; Moseby & O'Donnell 2003)
+age.max <- 5 # maximum age of females in wild from (Southgate, Christie & Bellchambers 2000; Southgate & Possingham 1995)
 
 age.vec <- 0:age.max
 
 # Create vectors: fertility -----------------------------------------------
 
-# (Southgate, Christie & Bellchambers 2000; Southgate & Possingham 1995)
+# (Southgate, Christie, & Bellchambers 2000; Southgate & Possingham 1995)
 # Stage 1 + < 3 months (Juvenile) = 3/12 months = 0.25 of first year
 # Stage 2 4-6 months (Immature) = 3/12 months = 0.25 of first year
 # Stage 3 7-9 months (Subadult) = 3 / 12 months = 0.25 of first year
@@ -58,7 +63,7 @@ m.sd.vec <- c(rep(pr.breed.sd, age.max+1)) #mean and standard deviations vector,
 m.sd.vec
 
 # Create vectors: Survival ------------------------------------------------
-# from Southgate Christie Bellchambers 2000
+# from Southgate, Christie, & Bellchambers 2000
 
 juv.surv <- 0.92
 imm.surv <- 0.91
