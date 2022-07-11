@@ -3,7 +3,9 @@
 # Platypus Ornithorhynchus anatinus (OA) PVA
 # requires library - Plotly
 # updated 09/07/2022
-# life history data from Bino, G., Grant, T. R. & Kingsford, R. T. 2015. Life history and dynamics of a platypus (Ornithorhynchus anatinus) population: four decades of mark-recapture surveys. Scientific Reports, 5:1, 16073.
+
+# References
+# Bino, G., Grant, T. R. & Kingsford, R. T. 2015. Life history and dynamics of a platypus (Ornithorhynchus anatinus) population: four decades of mark-recapture surveys. Scientific Reports, 5:1, 16073.
 
 ## remove everything
 rm(list = ls())
