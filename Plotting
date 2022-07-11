@@ -1,0 +1,261 @@
+
+rm(list = ls())
+
+library(readr)
+library(ggplot2)
+library(gridExtra)
+library(cowplot)
+library(grid)
+library(gridtext)
+library(patchwork)
+
+
+setwd("C:/Users/sofie/OneDrive - Flinders/Research projects/Honours/7 Data for plotting")
+
+
+# load data: allometrically scaled p(ext) <0.01 over 40 generations (40G) ------------
+
+DG40G <- read_csv("DG40GalldataFINAL.csv")
+ML40G <- read_csv("ML40GalldataFINAL.csv")
+BP40G <- read_csv("BP40Galldata.csv")
+OA40G <- read_csv("OA40Galldata.csv")
+LK40G <- read_csv("LK40Galldata.csv")
+
+# # view data
+# View(DG40G) # Chuditch
+# View(ML40G) # Bilby
+# View(BP40G) # Brush-tailed bettong
+# View(OA40G) # Platypus
+# View(LK40G) # Northern hairy-nosed wombat
+
+
+# load data: IUCN Red List p(ext) <0.10 over 100 years (100Y) -------------
+
+DG100Y <- read_csv("DG100YalldataFINAL.csv")
+ML100Y <- read_csv("ML100YalldataFINAL.csv")
+BP100Y <- read_csv("BP100Yalldata.csv")
+OA100Y <- read_csv("OA100Yalldata.csv")
+LK100Y <- read_csv("LK100Yalldata.csv")
+
+# #view data
+# View(DG100Y) # Chuditch
+# View(ML100Y) # Bilby
+# View(BP100Y) # Brush-tailed bettong
+# View(OA100Y) # Platypus
+# View(LK100Y) # Northern hairy-nosed wombat
+
+# create individual plots for each species: <0.01 @ 40 generations --------
+
+# Chuditch
+DG40G.plot <- ggplot(data = DG40G, mapping = aes(x=pop.found.vec, y=PrQExt)) +
+  geom_line(aes(y=PrQExt), color = "black") + 
+  geom_vline(xintercept = 100, linetype = 2, color = "red") +
+  geom_hline(yintercept = 0.01, linetype = 2, color = "red") +
+  scale_x_continuous(limits = c(0,325), breaks = NULL,expand = c(0,0.7)) +
+  scale_y_continuous(limits = c(0,1), breaks = seq(0,1, by = 0.2))+
+  theme_classic() +
+  labs( x = NULL, y = NULL, tag = "a")
+DG40G.plot
+
+# Bettongia penicillata
+BP40G.plot <- ggplot(data = BP40G, mapping = aes(x=pop.found.vec, y=PrQExt)) +
+  geom_line(aes(y=PrQExt), color = "black") + 
+  geom_vline(xintercept = 115, linetype = 2, color = "red") +
+  geom_hline(yintercept = 0.018, linetype = 2, color = "red") +
+  scale_x_continuous(limits = c(0,325), breaks = NULL,expand = c(0,0.7)) +
+  scale_y_continuous(limits = c(0,1), breaks = seq(0,1, by = 0.2))+
+  theme_classic() +
+  labs(x = NULL, y = NULL, tag = "c")
+BP40G.plot
+
+# Bilby
+ML40G.plot <- ggplot(data = ML40G, mapping = aes(x=pop.found.vec, y=PrQExt)) +
+  geom_line(aes(y=PrQExt), color = "black") +
+  geom_vline(xintercept = 115, linetype = 2, color = "red") +
+  geom_hline(yintercept = 0.01, linetype = 2, color = "red") +
+  scale_x_continuous(limits = c(0,325), breaks = NULL ,expand = c(0,0.7)) +
+  scale_y_continuous(limits = c(0,1), breaks = seq(0,1, by = 0.2))+
+  theme_classic() +
+  labs(x = NULL, y = NULL, tag = "e")
+ML40G.plot
+
+# NHN wombat
+LK40G.plot <- ggplot(data = LK40G, mapping = aes(x=pop.found.vec, y=PrQExt)) +
+  geom_line(aes(y=PrQExt), color = "black") + 
+  geom_vline(xintercept = 95, linetype = 2, color = "red") +
+  geom_hline(yintercept = 0.01, linetype = 2, color = "red") +
+  scale_x_continuous(limits = c(0,325), breaks = NULL,expand = c(0,0.7)) +
+  scale_y_continuous(limits = c(0,1), breaks = seq(0,1, by = 0.2))+
+  theme_classic() +
+  labs(x = NULL, y = NULL, tag = "g")
+LK40G.plot
+
+# Platypus
+OA40G.plot <- ggplot(data = OA40G, mapping = aes(x=pop.found.vec, y=PrQExt)) +
+  geom_line(aes(y=PrQExt), color = "black") + 
+  geom_vline(xintercept = 320, linetype = 2, color = "red") +
+  geom_hline(yintercept = 0.01, linetype = 2, color = "red") +
+  scale_x_continuous(limits = c(0,325), breaks = seq(0,325, by = 50),expand = c(0,0.7)) +
+  scale_y_continuous(limits = c(0,1), breaks = seq(0,1, by = 0.2))+
+  theme_classic() +
+  labs(x = NULL, y = NULL, tag = "i")
+OA40G.plot
+
+
+# combine plots for all species: <0.01 @ 40 generations -------------------
+
+plot_grid(DG40G.plot, NULL, BP40G.plot, ML40G.plot, LK40G.plot, OA40G.plot,
+          ncol = 2, align = "hv")
+
+
+pop.found <- ML40G$pop.found.vec
+DG.MVP.40G <- DG40G$PrQExt
+ML.MVP.40G <- ML40G$PrQExt
+BP.MVP.40G <- BP40G$PrQExt
+OA.MVP.40G <- OA40G$PrQExt
+LK.MVP.40G <- LK40G$PrQExt
+
+# all.MVP.40G <- data.frame(pop.found, DG.MVP.40G, ML.MVP.40G, BP.MVP.40G, OA.MVP.40G, LK.MVP.40G)
+
+# all.40G.plot <- ggplot(data = all.MVP.40G, mapping = aes(x=pop.found, y=PrQExt)) +
+#   geom_line(aes(y=DG.MVP.40G), color = "#E69F00", size = 1) + 
+#   geom_vline(xintercept = 100, linetype = 2, color = "#E69F00", size = 1) +
+#   geom_line(aes(y=ML.MVP.40G), color = "#56B4E9", size = 1) + 
+#   geom_vline(xintercept = 115, linetype = 2, color = "#56B4E9", size = 1) +  
+#   geom_line(aes(y=BP.MVP.40G), color = "#009E73", size = 1) + 
+#   geom_vline(xintercept = 115, linetype = 2, color = "#009E73", size = 1) +
+#   geom_line(aes(y=OA.MVP.40G), color = "#D55E00", size = 1) + 
+#   geom_vline(xintercept = 320, linetype = 2, color = "#D55E00", size = 1) +
+#   geom_line(aes(y=LK.MVP.40G), color = "#CC79A7", size = 1) + 
+#   geom_vline(xintercept = 95, linetype = 2, color = "#CC79A7", size = 1) +
+#   scale_x_continuous(limits = c(0,350), breaks = seq(0,350, by = 10),expand = c(0,0.7)) +
+#   scale_y_continuous(limits = c(0,1), breaks = seq(0,1, by = 0.1))+
+#   theme_bw() +
+#   labs(x = "Founding N", y = "Pr(quasi-ext)")
+# all.40G.plot
+
+
+# create individual plots for each species: <0.10 @ 100 years --------
+
+# Chuditch
+DG100Y.plot <- ggplot(data = DG100Y, mapping = aes(x=pop.found.vec, y=PrQExt)) +
+  geom_line(aes(y=PrQExt), color = "black") + 
+  geom_vline(xintercept = 50, linetype = 2, color = "red") +
+  geom_hline(yintercept = 0.1, linetype = 2, color = "red") +
+  scale_x_continuous(limits = c(0,100), breaks = NULL,expand = c(0,0.7)) +
+  scale_y_continuous(limits = c(0,1), breaks = NULL)+
+  theme_classic() +
+  labs( x = NULL, y = NULL, tag = "b")
+DG100Y.plot
+
+# Bilby
+ML100Y.plot <- ggplot(data = ML100Y, mapping = aes(x=pop.found.vec, y=PrQExt)) +
+  geom_line(aes(y=PrQExt), color = "black") +
+  geom_vline(xintercept = 52, linetype = 2, color = "red") +
+  geom_hline(yintercept = 0.1, linetype = 2, color = "red") +
+  scale_x_continuous(limits = c(0,100), breaks = NULL ,expand = c(0,0.7)) +
+  scale_y_continuous(limits = c(0,1), breaks = NULL)+
+  theme_classic() +
+  labs(x = NULL, y = NULL, tag = "f")
+ML100Y.plot
+
+# Bettongia penicillata
+BP100Y.plot <- ggplot(data = BP100Y, mapping = aes(x=pop.found.vec, y=PrQExt)) +
+  geom_line(aes(y=PrQExt), color = "black") + 
+  geom_vline(xintercept = 41, linetype = 2, color = "red") +
+  geom_hline(yintercept = 0.1, linetype = 2, color = "red") +
+  scale_x_continuous(limits = c(0,100), breaks = NULL,expand = c(0,0.7)) +
+  scale_y_continuous(limits = c(0,1), breaks = NULL)+
+  theme_classic() +
+  labs(x = NULL, y = NULL, tag = "d")
+BP100Y.plot
+
+# NHN wombat
+LK100Y.plot <- ggplot(data = LK100Y, mapping = aes(x=pop.found.vec, y=PrQExt)) +
+  geom_line(aes(y=PrQExt), color = "black") + 
+  geom_vline(xintercept = 47, linetype = 2, color = "red") +
+  geom_hline(yintercept = 0.1, linetype = 2, color = "red") +
+  scale_x_continuous(limits = c(0,100), breaks = NULL,expand = c(0,0.7)) +
+  scale_y_continuous(limits = c(0,1), breaks = NULL)+
+  theme_classic() +
+  labs(x = NULL, y = NULL, tag = "h")
+LK100Y.plot
+
+# Platypus
+OA100Y.plot <- ggplot(data = OA100Y, mapping = aes(x=pop.found.vec, y=PrQExt)) +
+  geom_line(aes(y=PrQExt), color = "black") + 
+  geom_vline(xintercept = 85, linetype = 2, color = "red") +
+  geom_hline(yintercept = 0.1, linetype = 2, color = "red") +
+  scale_x_continuous(limits = c(0,100), breaks = seq(0,100, by = 10), expand = c(0,0.7)) +
+  scale_y_continuous(limits = c(0,1), breaks = NULL)+
+  labs(x = NULL, y = NULL, tag = "j")+
+  theme_classic()
+OA100Y.plot
+
+#(DG100Y.plot, NULL, BP100Y.plot, ML100Y.plot, LK100Y.plot, OA100Y.plot,
+         # ncol = 2, align = "hv")
+
+
+
+# pop.found <- ML100Y$pop.found.vec
+# DG.MVP.100Y <- DG100Y$PrQExt
+# ML.MVP.100Y <- ML100Y$PrQExt
+# BP.MVP.100Y <- BP100Y$PrQExt
+# OA.MVP.100Y <- OA100Y$PrQExt
+# LK.MVP.100Y <- LK100Y$PrQExt
+
+# all.MVP.100Y <- data.frame(pop.found, DG.MVP.100Y, ML.MVP.100Y, BP.MVP.100Y, OA.MVP.100Y, LK.MVP.100Y)
+# 
+# all.100Y.plot <- ggplot(data = all.MVP.100Y, mapping = aes(x=pop.found, y=PrQExt)) +
+#   geom_line(aes(y=DG.MVP.100Y), color = "#E69F00", size = 1) + 
+#   geom_vline(xintercept = 50, linetype = 2, color = "#E69F00", size = 1) +
+#   geom_line(aes(y=ML.MVP.100Y), color = "#56B4E9", size = 1) + 
+#   geom_vline(xintercept = 55, linetype = 2, color = "#56B4E9", size = 1) +  
+#   geom_line(aes(y=BP.MVP.100Y), color = "#009E73", size = 1) + 
+#   geom_vline(xintercept = 40, linetype = 2, color = "#009E73", size = 1) +
+#   geom_line(aes(y=OA.MVP.100Y), color = "#D55E00", size = 1) + 
+#   geom_vline(xintercept = 90, linetype = 2, color = "#D55E00", size = 1) +
+#   geom_line(aes(y=LK.MVP.100Y), color = "#CC79A7", size = 1) + 
+#   geom_vline(xintercept = 40, linetype = 2, color = "#CC79A7", size = 1) +
+#   scale_x_continuous(limits = c(0,150), breaks = seq(0,150, by = 10),expand = c(0,0.7)) +
+#   scale_y_continuous(limits = c(0,1), breaks = seq(0,1, by = 0.1))+
+#   theme_bw() +
+#   labs(x = "Founding N", y = "Pr(quasi-ext)")
+# all.100Y.plot
+
+# grid.plot <- plot_grid(DG40G.plot, DG100Y.plot, BP40G.plot, BP100Y.plot, ML40G.plot, ML100Y.plot, LK40G.plot, LK100Y.plot, OA40G.plot, OA100Y.plot,
+#           ncol = 2, align = "hv")
+# grid.plot
+# 
+# grid.arrange(arrangeGrob(grid.plot, left = y.grob, bottom = x.grob))
+
+# create plots for labels
+
+lab.40 <- ggplot() +
+  annotate("text", x=1, y= 1, size = 6, label = "40 generations") + theme_void() +
+  theme(
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank()
+  ) 
+lab.100 <- ggplot() +
+  annotate("text", x=0, y= 0, size = 6, label = "100 years") + theme_void() +
+  theme(panel.border = element_blank())
+
+patch <- plot_spacer() + 
+  (DG40G.plot | DG100Y.plot) / 
+  (BP40G.plot | BP100Y.plot) / 
+  (ML40G.plot | ML100Y.plot) /
+  (LK40G.plot | LK100Y.plot) / 
+  (OA40G.plot | OA100Y.plot) + 
+  ggplot() + theme_void() +
+  plot_layout(widths = c(0.2, 12), heights = c(50, 1))
+patch
+
+xlab <- c("pr(quasi-extinction)")
+
+grid::grid.draw(grid::textGrob(xlab, x=0.03, rot = 90))
+grid::grid.draw(grid::textGrob("minimum N", y = 0.02))
+
+
