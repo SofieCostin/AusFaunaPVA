@@ -4,6 +4,10 @@
 # requires library - Plotly
 # update 23/06/2022
 
+# References
+# Johnson C. 1991. Utilization of habitat by the northern hairy‐nosed wombat Lasiorhinus krefftii. Journal of Zoology 225:495-507.
+# Johnson C, Crossman D. 1991. Dispersal and social organization of the northern hairy‐nosed wombat Lasiorhinus krefftii. Journal of Zoology 225:605-613.
+
 ## remove everything
 rm(list = ls())
 
