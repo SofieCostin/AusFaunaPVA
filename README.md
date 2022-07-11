@@ -12,11 +12,6 @@ Model complete
 Data entered into model and at least first run working
 - [x] orange-bellied parrot *Neophema chrysogaster*  
 - [x] malleefowl *Leipoa ocellata*  
-- [x] brush-tailed bettong *Bettongia penicillata*   
-- [x] western quoll *Dasyurus geoffroii*  
-- [x] platypus *Ornithorhynchus anatinus*  
-- [x] bilby *Macrotis lagotis*  
-- [x] northern hairy-nosed wombat *Lasiorhinus krefftii*
 - [x] pygmy bluetongue lizard *Tiliqua adelaidensis*  
 - [x] Rosenburg's monitor *Varanus rosenbergi*  
 
