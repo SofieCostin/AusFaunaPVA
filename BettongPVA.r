@@ -3,6 +3,10 @@
 # Brush-tailed bettong Bettongia penicillata (BP) PVA
 # requires library - Plotly
 # update 03/07/2022
+References:
+Pacioni C, Williams MR, Lacy RC, Spencer PB, Wayne AF. 2017. Predators and genetic fitness: key threatening factors for the conservation of a bettong species. Pacific Conservation Biology 23:200-212.
+Thompson CK, Wayne AF, Godfrey SS, Thompson RA. 2015. Survival, age estimation and sexual maturity of pouch young of the brush-tailed bettong (Bettongia penicillata) in captivity. Australian Mammalogy 37:29-38.
+
 
 ## remove everything
 rm(list = ls())
@@ -25,7 +29,7 @@ source("matrixOperators.r")
 
 # Leslie matrix -------------------------------------
 
-age.max = 6 # maximum age of females in wild from Threatened Species Listing Advice (FIND SOURCE)
+age.max = 6 # maximum age of females in wild 
 
 age.vec <- 0:age.max
 
