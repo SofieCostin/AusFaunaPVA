@@ -4,6 +4,10 @@
 # requires library - Plotly
 # updated 04/07/2022
 
+# Morris K, Johnson B, Orell P, Gaikhorst G, Wayne A, Moro D. 2003. Recovery of the threatened chuditch (Dasyurus geoffroii): a case study. Predators with pouches: the biology of carnivorous marsupials:435-451.
+# Stead-Richardson, E.J., Bradshaw, S.D., Bradshaw, F.J. and Gaikhorst, G., 2001. Monitoring the oestrous cycle of the chuditch (Dasyurus geoffroii)(Marsupialia: Dasyuridae): non-invasive analysis of faecal oestradiol-17b. Australian Journal of Zoology, 49(2), pp.183-193.)
+
+
 ## remove everything
 # rm(list = ls())
 
@@ -31,8 +35,7 @@ age.vec <- 0:age.max
 
 # Create vectors: fertility -----------------------------------------------
 
-# (An age, Soderquist 1988, Fauna profile DCBA, 
-# Stead-Richardson, E.J., Bradshaw, S.D., Bradshaw, F.J. and Gaikhorst, G., 2001. Monitoring the oestrous cycle of the chuditch (Dasyurus geoffroii)(Marsupialia: Dasyuridae): non-invasive analysis of faecal oestradiol-17b. Australian Journal of Zoology, 49(2), pp.183-193.)
+
 # Stage 1 = < 8 months (juvenile) = 8/12 months =  0.67 of first year
 # Stage 2 = 8 + months (adult) = 4/12 months = 0.33 of first year
 
